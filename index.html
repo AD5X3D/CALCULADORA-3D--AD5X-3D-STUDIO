@@ -276,14 +276,14 @@ button.secondary {
     Creado por <b>AD5X STUDIO 3D</b> | Instagram <b>@ad5x</b>
     
     <div class="visitor-counter">
-      <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fad5x3d.github.io%2FCALCULADORA-3D--AD5X-3D-STUDIO%2F&count_bg=%230b3d6e&title_bg=%231f1f1f&icon=&icon_color=%23E7E7E7&title=VISITAS&edge_flat=false" alt="Contador de visitas"/>
+      <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fad5x3d.github.io%2F&count_bg=%230b3d6e&title_bg=%231f1f1f&icon=&icon_color=%23E7E7E7&title=VISITAS&edge_flat=false" alt="Contador de visitas"/>
     </div>
   </div>
 
 </div>
 
 <script>
-// Sincronización
+// Sincronización de sliders
 const disp = document.getElementById("desperdicio");
 const dispInput = document.getElementById("desperdicioInput");
 disp.oninput = () => dispInput.value = disp.value;
@@ -328,8 +328,10 @@ function calcular(){
     <div class="section"><b>⚡ Electricidad:</b> $${electricidad.toFixed(2)}</div>
     <div class="section"><b>🧑‍🏭 Mano de obra:</b> $${mano.toFixed(2)}</div>
     <div class="section"><b>🏭 Amortización:</b> $${amort.toFixed(2)}</div>
+
     <div class="section"><b>📊 SUBTOTAL:</b> $${subtotal.toFixed(2)}</div>
     <div class="section" style="font-size: 1.2em; color: #145a8d;"><b>💰 TOTAL FINAL: $${final.toFixed(2)}</b></div>
+
     <div class="section"><b>🟢 Precio mínimo (+10%):</b> $${minimo.toFixed(2)}</div>
     <div class="section"><b>🟡 Precio mayorista (+35%):</b> $${mayorista.toFixed(2)}</div>
     <div class="section"><b>🔴 Precio premium (+100%):</b> $${premium.toFixed(2)}</div>
