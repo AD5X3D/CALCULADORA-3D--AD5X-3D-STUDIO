@@ -112,6 +112,28 @@ button.secondary {
   margin-top: 8px;
 }
 
+/* ESTILO BOTÓN MERCADO PAGO */
+.btn-contribuir {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 14px;
+  background-color: #00a650;
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
+  transition: 0.3s;
+  border: none;
+}
+
+.btn-contribuir:hover {
+  background-color: #008f45;
+  transform: scale(1.01);
+}
+
 .result {
   margin-top: 18px;
   padding: 20px;
@@ -139,14 +161,11 @@ button.secondary {
 @media print {
   body { background: white !important; color: black !important; padding: 0; }
   .container { max-width: 100%; }
-  .block { background: white !important; border: 1px solid #ccc !important; page-break-inside: avoid; }
-  .block-title { color: #0b3d6e !important; }
-  input, select { background: transparent !important; border: none !important; color: black !important; padding: 0 !important; font-weight: bold; appearance: none; }
-  button, input[type="range"] { display: none !important; }
+  .block, .btn-contribuir { display: none !important; } /* Ocultar contribución en PDF */
+  .block:not(.contrib) { display: block !important; background: white !important; border: 1px solid #ccc !important; page-break-inside: avoid; }
   .header-left h1 { color: #0b3d6e !important; }
   .result { border: 2px solid #0b3d6e !important; background: #f9f9f9 !important; color: black !important; }
-  .section { border-top: 1px solid #ddd !important; }
-  .footer-brand { color: black !important; border-top: 1px solid #ccc !important; }
+  .footer-brand { color: black !important; }
 }
 </style>
 </head>
@@ -235,6 +254,12 @@ button.secondary {
     </div>
   </div>
 
+  <div class="block contrib" style="border: 1px dashed #00a650; text-align: center;">
+    <div class="block-title" style="color: #00a650;">¿TE GUSTÓ EL PROYECTO?</div>
+    <p style="font-size: 13px; color: #9aa0a6; margin-top: -10px;">Si esta herramienta te es útil, puedes colaborar con el desarrollo.</p>
+    <a href="https://link.mercadopago.com.ar/ad5x" target="_blank" class="btn-contribuir">CONTRIBUIR</a>
+  </div>
+
   <button onclick="calcular()">CALCULAR COSTO</button>
   <button class="secondary" onclick="exportarPDF()">EXPORTAR INFORME PDF</button>
 
@@ -272,7 +297,7 @@ function calcular(){
   let mano = (+document.getElementById("manoHora").value||0) * (+document.getElementById("manoTiempo").value||0.5);
   
   let amort = ((+document.getElementById("precioImp").value / +document.getElementById("vidaUtil").value) + 
-               (+document.getElementById("mantenimiento").value / +document.getElementById("horasMes").value)) * tiempo;
+                (+document.getElementById("mantenimiento").value / +document.getElementById("horasMes").value)) * tiempo;
 
   let subtotal = material + electricidad + mano + amort;
   
@@ -291,7 +316,7 @@ function calcular(){
   document.getElementById("resultado").innerHTML = `
     <div class="section"><b>📦 Material:</b> $${material.toFixed(2)}</div>
     <div class="section"><b>⚡ Electricidad:</b> $${electricidad.toFixed(2)}</div>
-    <div class="section"><b>🧑🏭 Mano de obra:</b> $${mano.toFixed(2)}</div>
+    <div class="section"><b>🧑‍🏭 Mano de obra:</b> $${mano.toFixed(2)}</div>
     <div class="section"><b>🏭 Amortización:</b> $${amort.toFixed(2)}</div>
 
     <div class="section"><b>📊 SUBTOTAL:</b> $${subtotal.toFixed(2)}</div>
