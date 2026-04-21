@@ -1,0 +1,313 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>AD5X Calculadora</title>
+
+<style>
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: #0a0a0a;
+  color: white;
+  padding: 24px;
+}
+
+.container {
+  max-width: 780px;
+  margin: auto;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  gap: 20px;
+}
+
+.header-left h1 {
+  font-size: 40px;
+  color: #0b3d6e;
+  margin: 0;
+}
+
+.header-left p {
+  color: #9aa0a6;
+  margin: 4px 0 0 0;
+}
+
+.header-right img {
+  height: 120px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* BLOQUES */
+.block {
+  background: #121212;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  border: 1px solid #1f1f1f;
+}
+
+.block-title {
+  color: #0b3d6e;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.field-title {
+  font-size: 13px;
+  color: #b0b0b0;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+input, select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #2a2a2a;
+  background: #181818;
+  color: white;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.desp-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(90deg, #0b3d6e, #145a8d);
+  border: none;
+  color: white;
+  font-weight: 700;
+  border-radius: 10px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #1f1f1f;
+  border: 1px solid #2a2a2a;
+  margin-top: 8px;
+}
+
+.result {
+  margin-top: 18px;
+  padding: 20px;
+  background: #101010;
+  border-radius: 12px;
+  border: 1px solid rgba(11,61,110,0.3);
+}
+
+.section {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #2a2a2a;
+}
+
+.footer-brand {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  color: #9aa0a6;
+  font-size: 14px;
+  border-top: 1px solid #1f1f1f;
+}
+
+/* ESTILOS PARA PDF */
+@media print {
+  body { background: white !important; color: black !important; padding: 0; }
+  .container { max-width: 100%; }
+  .block { background: white !important; border: 1px solid #ccc !important; page-break-inside: avoid; }
+  .block-title { color: #0b3d6e !important; }
+  input, select { background: transparent !important; border: none !important; color: black !important; padding: 0 !important; font-weight: bold; appearance: none; }
+  button, input[type="range"] { display: none !important; }
+  .header-left h1 { color: #0b3d6e !important; }
+  .result { border: 2px solid #0b3d6e !important; background: #f9f9f9 !important; color: black !important; }
+  .section { border-top: 1px solid #ddd !important; }
+  .footer-brand { color: black !important; border-top: 1px solid #ccc !important; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="header-left">
+      <h1>AD5X</h1>
+      <p>Sistema profesional de cotización 3D</p>
+    </div>
+    <div class="header-right">
+      <img src="logo.png" alt="Logo AD5X">
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title">1. MATERIALES</div>
+    <div class="field">
+      <div class="field-title">Material seleccionado</div>
+      <select id="material">
+        <option>PLA</option><option>PETG</option><option>TPU</option>
+        <option>ABS</option><option>NYLON</option>
+      </select>
+    </div>
+    <div class="grid-2">
+      <div class="field"><div class="field-title">Precio Rollo ($)</div><input type="number" id="precioRollo"></div>
+      <div class="field"><div class="field-title">Gramos Rollo</div><input type="number" id="rollo" value="1000"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><div class="field-title">Gramos Usados</div><input type="number" id="gramos"></div>
+      <div class="field">
+        <div class="field-title">Desperdicio (%)</div>
+        <div class="desp-group">
+          <input type="range" id="desperdicio" min="0" max="50" value="10">
+          <input type="number" id="desperdicioInput" value="10">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title">2. COSTOS OPERATIVOS</div>
+    <div class="grid-2">
+      <div class="field"><div class="field-title">Horas Impresión</div><input id="horas"></div>
+      <div class="field"><div class="field-title">Minutos Impresión</div><input id="minutos"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><div class="field-title">Potencia (W)</div><input id="potencia" value="150"></div>
+      <div class="field"><div class="field-title">Precio kWh ($)</div><input id="kwh" value="200"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><div class="field-title">Tiempo Mano Obra (h)</div><input id="manoTiempo" value="0.5"></div>
+      <div class="field"><div class="field-title">Valor Hora ($)</div><input id="manoHora"></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title">3. AMORTIZACIÓN</div>
+    <div class="grid-2">
+      <div class="field"><div class="field-title">Precio Impresora</div><input id="precioImp"></div>
+      <div class="field"><div class="field-title">Vida Útil (hs)</div><input id="vidaUtil" value="5000"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><div class="field-title">Mantenimiento Mensual</div><input id="mantenimiento" value="2000"></div>
+      <div class="field"><div class="field-title">Horas Uso Mensuales</div><input id="horasMes" value="120"></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title">4. VENTA Y GANANCIA</div>
+    <div class="grid-2">
+      <div class="field"><div class="field-title">Comisión Plataforma (%)</div><input id="comision" value="0"></div>
+      <div class="field"><div class="field-title">Envío ($)</div><input id="envio" value="0"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <div class="field-title">Margen Ganancia (%)</div>
+        <div class="desp-group">
+          <input type="range" id="gananciaSlider" min="0" max="300" value="50">
+          <input type="number" id="gananciaInput" value="50">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button onclick="calcular()">CALCULAR COSTO</button>
+  <button class="secondary" onclick="exportarPDF()">EXPORTAR INFORME PDF</button>
+
+  <div class="result" id="resultado"></div>
+
+  <div class="footer-brand">
+    Creado por <b>AD5X STUDIO 3D</b> | Instagram <b>@ad5x</b>
+  </div>
+
+</div>
+
+<script>
+// Sincronización
+const disp = document.getElementById("desperdicio");
+const dispInput = document.getElementById("desperdicioInput");
+disp.oninput = () => dispInput.value = disp.value;
+dispInput.oninput = () => disp.value = dispInput.value;
+
+const gSlider = document.getElementById("gananciaSlider");
+const gInput = document.getElementById("gananciaInput");
+gSlider.oninput = () => gInput.value = gSlider.value;
+gInput.oninput = () => gSlider.value = gInput.value;
+
+function calcular(){
+  let gramos = +document.getElementById("gramos").value || 0;
+  let rollo = +document.getElementById("rollo").value || 1;
+  let precio = +document.getElementById("precioRollo").value || 0;
+  let material = (gramos/rollo)*precio*(1 + (+dispInput.value/100));
+
+  let h = +document.getElementById("horas").value || 0;
+  let m = +document.getElementById("minutos").value || 0;
+  let tiempo = h + m/60;
+
+  let electricidad = (+document.getElementById("potencia").value/1000) * tiempo * (+document.getElementById("kwh").value);
+  let mano = (+document.getElementById("manoHora").value||0) * (+document.getElementById("manoTiempo").value||0.5);
+  
+  let amort = ((+document.getElementById("precioImp").value / +document.getElementById("vidaUtil").value) + 
+               (+document.getElementById("mantenimiento").value / +document.getElementById("horasMes").value)) * tiempo;
+
+  let subtotal = material + electricidad + mano + amort;
+  
+  let comision = +document.getElementById("comision").value || 0;
+  let envio = +document.getElementById("envio").value || 0;
+  let ganancia = +gInput.value || 50;
+
+  let baseVenta = (subtotal * (1 + comision/100)) + envio;
+  let final = baseVenta * (1 + ganancia/100);
+
+  // Precios Sugeridos
+  let minimo = baseVenta * 1.10;
+  let mayorista = baseVenta * 1.35;
+  let premium = baseVenta * 2.00;
+
+  document.getElementById("resultado").innerHTML = `
+    <div class="section"><b>📦 Material:</b> $${material.toFixed(2)}</div>
+    <div class="section"><b>⚡ Electricidad:</b> $${electricidad.toFixed(2)}</div>
+    <div class="section"><b>🧑🏭 Mano de obra:</b> $${mano.toFixed(2)}</div>
+    <div class="section"><b>🏭 Amortización:</b> $${amort.toFixed(2)}</div>
+
+    <div class="section"><b>📊 SUBTOTAL:</b> $${subtotal.toFixed(2)}</div>
+    <div class="section" style="font-size: 1.2em; color: #145a8d;"><b>💰 TOTAL FINAL: $${final.toFixed(2)}</b></div>
+
+    <div class="section"><b>🟢 Precio mínimo (+10%):</b> $${minimo.toFixed(2)}</div>
+    <div class="section"><b>🟡 Precio mayorista (+35%):</b> $${mayorista.toFixed(2)}</div>
+    <div class="section"><b>🔴 Precio premium (+100%):</b> $${premium.toFixed(2)}</div>
+  `;
+}
+
+function exportarPDF() {
+  calcular();
+  window.print();
+}
+</script>
+
+</body>
+</html>
