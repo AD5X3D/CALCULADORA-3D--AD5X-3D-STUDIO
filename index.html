@@ -157,15 +157,22 @@ button.secondary {
   border-top: 1px solid #1f1f1f;
 }
 
+.visitor-counter {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
 /* ESTILOS PARA PDF */
 @media print {
   body { background: white !important; color: black !important; padding: 0; }
   .container { max-width: 100%; }
-  .block, .btn-contribuir { display: none !important; } /* Ocultar contribución en PDF */
+  .block, .btn-contribuir, .visitor-counter { display: none !important; }
   .block:not(.contrib) { display: block !important; background: white !important; border: 1px solid #ccc !important; page-break-inside: avoid; }
   .header-left h1 { color: #0b3d6e !important; }
   .result { border: 2px solid #0b3d6e !important; background: #f9f9f9 !important; color: black !important; }
-  .footer-brand { color: black !important; }
 }
 </style>
 </head>
@@ -267,6 +274,10 @@ button.secondary {
 
   <div class="footer-brand">
     Creado por <b>AD5X STUDIO 3D</b> | Instagram <b>@ad5x</b>
+    
+    <div class="visitor-counter">
+      <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fad5x3d.github.io%2FCALCULADORA-3D--AD5X-3D-STUDIO%2F&count_bg=%230b3d6e&title_bg=%231f1f1f&icon=&icon_color=%23E7E7E7&title=VISITAS&edge_flat=false" alt="Contador de visitas"/>
+    </div>
   </div>
 
 </div>
@@ -308,7 +319,6 @@ function calcular(){
   let baseVenta = (subtotal * (1 + comision/100)) + envio;
   let final = baseVenta * (1 + ganancia/100);
 
-  // Precios Sugeridos
   let minimo = baseVenta * 1.10;
   let mayorista = baseVenta * 1.35;
   let premium = baseVenta * 2.00;
@@ -318,10 +328,8 @@ function calcular(){
     <div class="section"><b>⚡ Electricidad:</b> $${electricidad.toFixed(2)}</div>
     <div class="section"><b>🧑‍🏭 Mano de obra:</b> $${mano.toFixed(2)}</div>
     <div class="section"><b>🏭 Amortización:</b> $${amort.toFixed(2)}</div>
-
     <div class="section"><b>📊 SUBTOTAL:</b> $${subtotal.toFixed(2)}</div>
     <div class="section" style="font-size: 1.2em; color: #145a8d;"><b>💰 TOTAL FINAL: $${final.toFixed(2)}</b></div>
-
     <div class="section"><b>🟢 Precio mínimo (+10%):</b> $${minimo.toFixed(2)}</div>
     <div class="section"><b>🟡 Precio mayorista (+35%):</b> $${mayorista.toFixed(2)}</div>
     <div class="section"><b>🔴 Precio premium (+100%):</b> $${premium.toFixed(2)}</div>
