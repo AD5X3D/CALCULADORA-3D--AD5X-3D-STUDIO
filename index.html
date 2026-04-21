@@ -157,16 +157,23 @@ button.secondary {
   border-top: 1px solid #1f1f1f;
 }
 
-.visitor-counter {
-  margin-top: 20px;
-  text-align: center;
+/* ESTILO PARA EL CONTADOR DE TEXTO */
+.count-badge {
+  display: inline-block;
+  background: #1f1f1f;
+  border: 1px solid #0b3d6e;
+  padding: 5px 15px;
+  border-radius: 20px;
+  margin-top: 15px;
+  color: #0b3d6e;
+  font-weight: bold;
+  font-size: 12px;
 }
 
-/* ESTILOS PARA PDF */
 @media print {
   body { background: white !important; color: black !important; padding: 0; }
   .container { max-width: 100%; }
-  .block, .btn-contribuir, .visitor-counter { display: none !important; }
+  .block, .btn-contribuir, .count-badge { display: none !important; }
   .block:not(.contrib) { display: block !important; background: white !important; border: 1px solid #ccc !important; page-break-inside: avoid; }
   .header-left h1 { color: #0b3d6e !important; }
   .result { border: 2px solid #0b3d6e !important; background: #f9f9f9 !important; color: black !important; }
@@ -271,18 +278,29 @@ button.secondary {
 
   <div class="footer-brand">
     Creado por <b>AD5X STUDIO 3D</b> | Instagram <b>@ad5x</b>
-    
-    <div class="visitor-counter">
-      <p style="font-size: 10px; color: #666; margin-bottom: 5px;">CONTADOR DE VISITAS</p>
-      <a href="https://logwork.com/visitors-counter" target="_blank">
-        <img src="https://counter.logwork.com/main.php?id=30510500&style=0002" border="0" alt="Contador">
-      </a>
+    <br>
+    <div class="count-badge">
+      VISITAS: <span id="count">...</span>
     </div>
   </div>
 
 </div>
 
 <script>
+// Lógica del contador de texto (Inmune a bloqueos de imágenes)
+async function updateCounter() {
+  try {
+    const response = await fetch('https://api.countapi.xyz/hit/ad5x3d_calculadora/visits');
+    const data = await response.json();
+    document.getElementById('count').innerText = data.value;
+  } catch (err) {
+    // Si la API falla, mostramos un número fijo para que no quede feo
+    document.getElementById('count').innerText = "Disponible";
+  }
+}
+updateCounter();
+
+// Sincronización de inputs
 const disp = document.getElementById("desperdicio");
 const dispInput = document.getElementById("desperdicioInput");
 disp.oninput = () => dispInput.value = disp.value;
