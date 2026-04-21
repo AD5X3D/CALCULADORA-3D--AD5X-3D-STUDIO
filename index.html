@@ -112,7 +112,19 @@ button.secondary {
   margin-top: 8px;
 }
 
-/* ESTILO BOTÓN MERCADO PAGO */
+.btn-save {
+  background: #1f1f1f;
+  color: #0b3d6e;
+  border: 1px solid #0b3d6e;
+  font-size: 12px;
+  padding: 10px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  border-radius: 8px;
+  width: auto;
+  display: inline-block;
+}
+
 .btn-contribuir {
   display: block;
   width: 100%;
@@ -125,13 +137,7 @@ button.secondary {
   border-radius: 10px;
   margin-top: 10px;
   box-sizing: border-box;
-  transition: 0.3s;
   border: none;
-}
-
-.btn-contribuir:hover {
-  background-color: #008f45;
-  transform: scale(1.01);
 }
 
 .result {
@@ -157,20 +163,10 @@ button.secondary {
   border-top: 1px solid #1f1f1f;
 }
 
-/* CONTENEDOR DEL CONTADOR */
-.counter-box {
-  margin-top: 15px;
-  padding: 10px;
-  background: #181818;
-  display: inline-block;
-  border-radius: 8px;
-  border: 1px solid #333;
-}
-
 @media print {
   body { background: white !important; color: black !important; padding: 0; }
   .container { max-width: 100%; }
-  .block, .btn-contribuir, .counter-box { display: none !important; }
+  .block, .btn-contribuir, .counter-box, .btn-save, #desperdicio, #gananciaSlider { display: none !important; }
   .block:not(.contrib) { display: block !important; background: white !important; border: 1px solid #ccc !important; page-break-inside: avoid; }
   .header-left h1 { color: #0b3d6e !important; }
   .result { border: 2px solid #0b3d6e !important; background: #f9f9f9 !important; color: black !important; }
@@ -192,83 +188,92 @@ button.secondary {
     </div>
   </div>
 
-  <div class="block">
-    <div class="block-title">1. MATERIALES</div>
-    <div class="field">
-      <div class="field-title">Material seleccionado</div>
-      <select id="material">
-        <option>PLA</option><option>PETG</option><option>TPU</option>
-        <option>ABS</option><option>NYLON</option>
-      </select>
-    </div>
-    <div class="grid-2">
-      <div class="field"><div class="field-title">Precio Rollo ($)</div><input type="number" id="precioRollo"></div>
-      <div class="field"><div class="field-title">Gramos Rollo</div><input type="number" id="rollo" value="1000"></div>
-    </div>
-    <div class="grid-2">
-      <div class="field"><div class="field-title">Gramos Usados</div><input type="number" id="gramos"></div>
+  <button class="btn-save" onclick="cargarDatos()">📁 CARGAR DATOS GUARDADOS</button>
+
+  <form id="calcForm" onsubmit="return false;" autocomplete="on">
+    
+    <div class="block">
+      <div class="block-title">1. MATERIALES Y PRODUCTO</div>
       <div class="field">
-        <div class="field-title">Desperdicio (%)</div>
-        <div class="desp-group">
-          <input type="range" id="desperdicio" min="0" max="50" value="10">
-          <input type="number" id="desperdicioInput" value="10">
+        <div class="field-title">Nombre del Producto</div>
+        <input type="text" id="nombreProducto" name="nombreProducto" placeholder="Ej: Llavero Copa del Mundo">
+      </div>
+      <div class="field">
+        <div class="field-title">Material</div>
+        <select id="material" name="material">
+          <option>PLA</option><option>PETG</option><option>TPU</option>
+          <option>ABS</option><option>NYLON</option>
+        </select>
+      </div>
+      <div class="grid-2">
+        <div class="field"><div class="field-title">Precio Rollo ($)</div><input type="number" id="precioRollo" name="precioRollo"></div>
+        <div class="field"><div class="field-title">Gramos Rollo</div><input type="number" id="rollo" name="rollo" value="1000"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><div class="field-title">Gramos Usados</div><input type="number" id="gramos" name="gramos"></div>
+        <div class="field">
+          <div class="field-title">Desperdicio (%)</div>
+          <div class="desp-group">
+            <input type="range" id="desperdicio" min="0" max="50" value="10">
+            <input type="number" id="desperdicioInput" name="desperdicioInput" value="10">
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="block">
-    <div class="block-title">2. COSTOS OPERATIVOS</div>
-    <div class="grid-2">
-      <div class="field"><div class="field-title">Horas Impresión</div><input id="horas"></div>
-      <div class="field"><div class="field-title">Minutos Impresión</div><input id="minutos"></div>
+    <div class="block">
+      <div class="block-title">2. COSTOS OPERATIVOS</div>
+      <div class="grid-2">
+        <div class="field"><div class="field-title">Horas Impresión</div><input type="number" id="horas" name="horas"></div>
+        <div class="field"><div class="field-title">Minutos Impresión</div><input type="number" id="minutos" name="minutos"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><div class="field-title">Potencia (W)</div><input type="number" id="potencia" name="potencia" value="150"></div>
+        <div class="field"><div class="field-title">Precio kWh ($)</div><input type="number" id="kwh" name="kwh" value="200"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><div class="field-title">Tiempo Mano Obra (h)</div><input type="number" step="0.1" id="manoTiempo" name="manoTiempo" value="0.5"></div>
+        <div class="field"><div class="field-title">Valor Hora ($)</div><input type="number" id="manoHora" name="manoHora"></div>
+      </div>
     </div>
-    <div class="grid-2">
-      <div class="field"><div class="field-title">Potencia (W)</div><input id="potencia" value="150"></div>
-      <div class="field"><div class="field-title">Precio kWh ($)</div><input id="kwh" value="200"></div>
-    </div>
-    <div class="grid-2">
-      <div class="field"><div class="field-title">Tiempo Mano Obra (h)</div><input id="manoTiempo" value="0.5"></div>
-      <div class="field"><div class="field-title">Valor Hora ($)</div><input id="manoHora"></div>
-    </div>
-  </div>
 
-  <div class="block">
-    <div class="block-title">3. AMORTIZACIÓN</div>
-    <div class="grid-2">
-      <div class="field"><div class="field-title">Precio Impresora</div><input id="precioImp"></div>
-      <div class="field"><div class="field-title">Vida Útil (hs)</div><input id="vidaUtil" value="5000"></div>
+    <div class="block">
+      <div class="block-title">3. AMORTIZACIÓN</div>
+      <div class="grid-2">
+        <div class="field"><div class="field-title">Precio Impresora</div><input type="number" id="precioImp" name="precioImp"></div>
+        <div class="field"><div class="field-title">Vida Útil (hs)</div><input type="number" id="vidaUtil" name="vidaUtil" value="5000"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><div class="field-title">Mantenimiento Mensual ($)</div><input type="number" id="mantenimiento" name="mantenimiento" value="2000"></div>
+        <div class="field"><div class="field-title">Horas Uso Mensuales</div><input type="number" id="horasMes" name="horasMes" value="120"></div>
+      </div>
     </div>
-    <div class="grid-2">
-      <div class="field"><div class="field-title">Mantenimiento Mensual</div><input id="mantenimiento" value="2000"></div>
-      <div class="field"><div class="field-title">Horas Uso Mensuales</div><input id="horasMes" value="120"></div>
-    </div>
-  </div>
 
-  <div class="block">
-    <div class="block-title">4. VENTA Y GANANCIA</div>
-    <div class="grid-2">
-      <div class="field"><div class="field-title">Comisión Plataforma (%)</div><input id="comision" value="0"></div>
-      <div class="field"><div class="field-title">Envío ($)</div><input id="envio" value="0"></div>
-    </div>
-    <div class="grid-2">
-      <div class="field">
-        <div class="field-title">Margen Ganancia (%)</div>
-        <div class="desp-group">
-          <input type="range" id="gananciaSlider" min="0" max="300" value="50">
-          <input type="number" id="gananciaInput" value="50">
+    <div class="block">
+      <div class="block-title">4. VENTA Y GANANCIA</div>
+      <div class="grid-2">
+        <div class="field"><div class="field-title">Comisión (%)</div><input type="number" id="comision" name="comision" value="0"></div>
+        <div class="field"><div class="field-title">Envío ($)</div><input type="number" id="envio" name="envio" value="0"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <div class="field-title">Margen Ganancia (%)</div>
+          <div class="desp-group">
+            <input type="range" id="gananciaSlider" min="0" max="300" value="100">
+            <input type="number" id="gananciaInput" name="gananciaInput" value="100">
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="block contrib" style="border: 1px dashed #00a650; text-align: center;">
-    <div class="block-title" style="color: #00a650;">¿TE GUSTÓ EL PROYECTO?</div>
-    <p style="font-size: 13px; color: #9aa0a6; margin-top: -10px;">Si esta herramienta te es útil, puedes colaborar con el desarrollo.</p>
-    <a href="https://link.mercadopago.com.ar/ad5x" target="_blank" class="btn-contribuir">CONTRIBUIR</a>
-  </div>
+    <div class="block contrib" style="border: 1px dashed #00a650; text-align: center;">
+      <div class="block-title" style="color: #00a650;">¿TE GUSTÓ EL PROYECTO?</div>
+      <a href="https://link.mercadopago.com.ar/ad5x" target="_blank" class="btn-contribuir">CONTRIBUIR</a>
+    </div>
 
-  <button onclick="calcular()">CALCULAR COSTO</button>
+    <button type="button" onclick="calcular()">CALCULAR Y GUARDAR</button>
+  </form>
+
   <button class="secondary" onclick="exportarPDF()">EXPORTAR INFORME PDF</button>
 
   <div class="result" id="resultado"></div>
@@ -276,18 +281,39 @@ button.secondary {
   <div class="footer-brand">
     Creado por <b>AD5X STUDIO 3D</b> | Instagram <b>@ad5x</b>
     <br>
-    
-    <div class="counter-box">
-      <div align="center">
-        <p style="font-size: 10px; margin: 0 0 5px 0; color: #9aa0a6;">VISITANTES</p>
-        <a href="https://www.freecounterstat.com" title="contadores gratuitos"><img src="https://counter11.freecounterstat.com/private/freecounterstat.php?c=llnwhuugm68mzhcl8l14r21z9n2hllp6" border="0" title="contadores gratuitos" alt="contadores gratuitos"></a>
-      </div>
+    <div align="center" style="margin-top:15px;">
+      <a href="https://www.freecounterstat.com" title="contadores"><img src="https://counter11.freecounterstat.com/private/freecounterstat.php?c=llnwhuugm68mzhcl8l14r21z9n2hllp6" border="0" alt="contador"></a>
     </div>
   </div>
 
 </div>
 
 <script>
+// MEMORIA LOCAL
+function guardarDatos() {
+  const form = document.getElementById('calcForm');
+  const formData = new FormData(form);
+  const datos = {};
+  formData.forEach((value, key) => { datos[key] = value; });
+  localStorage.setItem('ad5x_storage', JSON.stringify(datos));
+}
+
+function cargarDatos() {
+  const guardado = localStorage.getItem('ad5x_storage');
+  if (guardado) {
+    const datos = JSON.parse(guardado);
+    for (const key in datos) {
+      const el = document.getElementsByName(key)[0];
+      if (el) {
+        el.value = datos[key];
+        if (key === 'desperdicioInput') document.getElementById('desperdicio').value = datos[key];
+        if (key === 'gananciaInput') document.getElementById('gananciaSlider').value = datos[key];
+      }
+    }
+  }
+}
+
+// SINCRONIZACIÓN SLIDERS
 const disp = document.getElementById("desperdicio");
 const dispInput = document.getElementById("desperdicioInput");
 disp.oninput = () => dispInput.value = disp.value;
@@ -299,6 +325,9 @@ gSlider.oninput = () => gInput.value = gSlider.value;
 gInput.oninput = () => gSlider.value = gInput.value;
 
 function calcular(){
+  guardarDatos();
+  
+  let prod = document.getElementById("nombreProducto").value || "SIN NOMBRE";
   let gramos = +document.getElementById("gramos").value || 0;
   let rollo = +document.getElementById("rollo").value || 1;
   let precio = +document.getElementById("precioRollo").value || 0;
@@ -314,29 +343,38 @@ function calcular(){
   let amort = ((+document.getElementById("precioImp").value / +document.getElementById("vidaUtil").value) + 
                 (+document.getElementById("mantenimiento").value / +document.getElementById("horasMes").value)) * tiempo;
 
+  // SUBTOTAL BASE (Costo de producción puro)
   let subtotal = material + electricidad + mano + amort;
   
   let comision = +document.getElementById("comision").value || 0;
   let envio = +document.getElementById("envio").value || 0;
-  let ganancia = +gInput.value || 50;
+  let ganancia = +gInput.value || 100;
 
-  let baseVenta = (subtotal * (1 + comision/100)) + envio;
-  let final = baseVenta * (1 + ganancia/100);
+  // Precio de venta calculado con el slider
+  let costoConComision = (subtotal * (1 + comision/100)) + envio;
+  let final = costoConComision * (1 + ganancia/100);
 
-  let minimo = baseVenta * 1.10;
-  let mayorista = baseVenta * 1.35;
-  let premium = baseVenta * 2.00;
+  // CÁLCULOS SUGERIDOS SOBRE EL SUBTOTAL
+  let pMinimo = subtotal * 1.20;    // Costo + 20%
+  let pMayorista = subtotal * 1.40;  // Costo + 40%
+  let pPremium = subtotal * 3.00;    // Costo + 200% (Subtotal * 3)
 
+  // RESULTADOS RENDERIZADOS
   document.getElementById("resultado").innerHTML = `
-    <div class="section"><b>📦 Material:</b> $${material.toFixed(2)}</div>
-    <div class="section"><b>⚡ Electricidad:</b> $${electricidad.toFixed(2)}</div>
-    <div class="section"><b>🧑‍🏭 Mano de obra:</b> $${mano.toFixed(2)}</div>
+    <div class="section" style="color: #0b3d6e; font-size: 1.1em;"><b>📦 PRODUCTO: ${prod.toUpperCase()}</b></div>
+    <div class="section"><b>🧵 Costo Material:</b> $${material.toFixed(2)}</div>
+    <div class="section"><b>⚡ Costo Electricidad:</b> $${electricidad.toFixed(2)}</div>
+    <div class="section"><b>🧑‍🏭 Mano de Obra:</b> $${mano.toFixed(2)}</div>
     <div class="section"><b>🏭 Amortización:</b> $${amort.toFixed(2)}</div>
-    <div class="section"><b>📊 SUBTOTAL:</b> $${subtotal.toFixed(2)}</div>
-    <div class="section" style="font-size: 1.2em; color: #145a8d;"><b>💰 TOTAL FINAL: $${final.toFixed(2)}</b></div>
-    <div class="section"><b>🟢 Precio mínimo (+10%):</b> $${minimo.toFixed(2)}</div>
-    <div class="section"><b>🟡 Precio mayorista (+35%):</b> $${mayorista.toFixed(2)}</div>
-    <div class="section"><b>🔴 Precio premium (+100%):</b> $${premium.toFixed(2)}</div>
+    
+    <div class="section" style="background: #1a1a1a; padding: 12px; border-radius: 8px; border-left: 5px solid #0b3d6e; margin-top: 15px;">
+      <div style="color: #9aa0a6; font-size: 0.95em; margin-bottom: 5px;"><b>📊 SUBTOTAL DEL COSTO: $${subtotal.toFixed(2)}</b></div>
+      <div style="color: #145a8d; font-size: 1.4em;"><b>💰 PRECIO DE VENTA (Manual): $${final.toFixed(2)}</b></div>
+    </div>
+
+    <div class="section"><b>🟢 PRECIO MÍNIMO (+20% del subtotal):</b> $${pMinimo.toFixed(2)}</div>
+    <div class="section"><b>🟡 PRECIO MAYORISTA (+40% del subtotal):</b> $${pMayorista.toFixed(2)}</div>
+    <div class="section" style="border-bottom: 2px solid #00a650; padding-bottom: 5px;"><b>🔴 PRECIO PREMIUM (+200% del subtotal):</b> $${pPremium.toFixed(2)}</div>
   `;
 }
 
@@ -344,7 +382,8 @@ function exportarPDF() {
   calcular();
   window.print();
 }
-</script>
 
+window.onload = cargarDatos;
+</script>
 </body>
 </html>
